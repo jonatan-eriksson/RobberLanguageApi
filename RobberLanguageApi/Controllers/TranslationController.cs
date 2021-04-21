@@ -16,7 +16,7 @@ namespace RobberLanguageApi.Controllers
         [HttpPost]
         public ActionResult<Translation> Translate(Translation translation)
         {
-            return CreatedAtAction("Get", new Translation(translation.OriginalSentence));
+            return new Translation(translation.OriginalSentence);
         }
     }
 }
