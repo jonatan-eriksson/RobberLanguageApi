@@ -14,7 +14,7 @@ namespace RobberLanguageApi.Controllers
     {
         [Route("CreateTranslation")]
         [HttpPost]
-        public ActionResult<Translation> Translate(Translation translation)
+        public Translation Translate(Translation translation)
         {
             return new Translation(translation.OriginalSentence);
         }
