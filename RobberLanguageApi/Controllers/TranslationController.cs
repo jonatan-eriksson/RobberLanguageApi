@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RobberLanguageApi.Data;
 using RobberLanguageApi.Models;
 using System;
@@ -48,6 +49,14 @@ namespace RobberLanguageApi.Controllers
             }
 
             return Ok(translation);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Translation>>> GetTranslations()
+        {
+            return await _context.Translations.ToListAsync();
         }
     }
 }
