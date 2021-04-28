@@ -18,6 +18,8 @@ namespace RobberLanguageApi.Models
         {
             this.OriginalSentence = originalSentence;
             this.TranslatedSentence = TranslateSentence(originalSentence);
+            this.CreationDate = DateTime.Now;
+            this.ModificationDate = DateTime.Now;
         }
 
         public static string TranslateSentence(string text)
