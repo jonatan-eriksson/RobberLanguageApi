@@ -33,8 +33,21 @@ namespace RobberLanguageApi.Controllers
             var newTranslation = new Translation(translation.OriginalSentence);
             await _context.AddAsync(newTranslation);
             await _context.SaveChangesAsync();
-            return Ok(newTranslation);
+            return CreatedAtAction(nameof(GetTranslation), new { id = newTranslation.Id }, newTranslation);
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Translation>> GetTranslation(int id)
+        {
+            var translation = await _context.Translations.FindAsync(id);
+            if (translation == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(translation);
+        }
     }
 }
