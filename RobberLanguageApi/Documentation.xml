@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RobberLanguageApi</name>
+    </assembly>
+    <members>
+        <member name="M:RobberLanguageApi.Controllers.TranslationController.GetTranslation(System.Int32)">
+            <summary>
+            Retrieves a specific translation by unique id
+            </summary>
+            <param name="id" example="1">The translation id</param>
+            <response code="200">Translation retrieved</response>
+            <response code="404">Translation not found</response>
+        </member>
+        <member name="M:RobberLanguageApi.Controllers.TranslationController.GetTranslations">
+            <summary>
+            Retrieves a list of all translations
+            </summary>
+            <response code="200">Translations retrieved</response>
+            <response code="404">No translations found</response>
+        </member>
+        <member name="M:RobberLanguageApi.Controllers.TranslationControllerV2.GetTranslation(System.Int32)">
+            <summary>
+            Retrieves a specific translation by unique id
+            </summary>
+            <param name="id" example="1">The translation id</param>
+            <response code="200">Translation retrieved</response>
+            <response code="404">Translation not found</response>
+        </member>
+        <member name="M:RobberLanguageApi.Controllers.TranslationControllerV2.GetTranslations">
+            <summary>
+            Retrieves a list of all translations
+            </summary>
+            <response code="200">Translations retrieved</response>
+            <response code="404">No translations found</response>
+        </member>
+    </members>
+</doc>
