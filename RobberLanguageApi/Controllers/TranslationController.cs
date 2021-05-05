@@ -11,8 +11,10 @@ using System.Threading.Tasks;
 
 namespace RobberLanguageApi.Controllers
 {
-    [Route("api/RobberLanguage")]
+    
     [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/RobberLanguage")]
     public class TranslationController : ControllerBase
     {
         private RobberTranslationDbContext _context { get; set; }
@@ -37,6 +39,12 @@ namespace RobberLanguageApi.Controllers
             return CreatedAtAction(nameof(GetTranslation), new { id = newTranslation.Id }, newTranslation);
         }
 
+        /// <summary>
+        /// Retrieves a specific translation by unique id
+        /// </summary>
+        /// <param name="id" example="1">The translation id</param>
+        /// <response code="200">Translation retrieved</response>
+        /// <response code="404">Translation not found</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,12 +59,46 @@ namespace RobberLanguageApi.Controllers
             return Ok(translation);
         }
 
+        /// <summary>
+        /// Retrieves a list of all translations
+        /// </summary>
+        /// <response code="200">Translations retrieved</response>
+        /// <response code="404">No translations found</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Translation>>> GetTranslations()
         {
             return await _context.Translations.ToListAsync();
+        }
+
+
+        [HttpGet("query")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Translation>>> GetQuery([FromQuery] string keyword)
+        {
+            return await _context.Translations.Where(t => t.OriginalSentence.Contains(keyword)).ToListAsync();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTranslation(long id, Translation translation)
+        {
+            if (id != translation.Id)
+                return BadRequest();
+
+            _context.Entry(translation).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!_context.Translations.Any(t => t.Id == id))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }
